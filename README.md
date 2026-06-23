@@ -1,100 +1,60 @@
-[Google Maps Scraper](https://apify.com/alizarin_refrigerator-owner/google-maps-scraper?fpr=data)
+[Google Maps Scraper](https://apify.com/nexgendata/google-maps-scraper?fpr=data)
 
-# Google Maps Business Scraper v3.0
+## What does Google Maps Scraper do?
 
-Comprehensive Google Maps & GBP scraper with Camoufox stealth browser. Two modes: Search mode for bulk scraping, Place ID mode for detailed GBP data. Extracts business name, address, phone, website, description ('From the business'), reviews, opening hours, photos, Q&A, and more.
+Google Maps Scraper extracts business data from Google Maps search results. It collects business names, addresses, phone numbers, websites, ratings, review counts, and operating hours for any search query or location.
 
----
+## Why use Google Maps Scraper?
 
-## Quick Start
+Finding business contact information manually is slow and expensive. This scraper automates the entire process, delivering structured data you can immediately use for lead generation, market research, or competitive analysis.
 
-### Test with Demo Mode (free, no API key needed)
+## Use cases
 
-```
-{
-  "demoMode": true,
-  "webhookHeaders": {}
-}
-```
+- **B2B Lead Generation**: Build targeted prospect lists with verified business contact information for any industry and location
+- **Market Research**: Analyze business density, ratings, and competition in specific geographic areas
+- **Local SEO**: Monitor your business listings and compare against competitors in your area
+- **Real Estate Analysis**: Map businesses, amenities, and services around target properties
+- **Sales Prospecting**: Find potential customers by industry, location, and rating
 
-### Run with real data
+## Input parameters
 
-```
-{
-  "demoMode": false,
-  "analysisMode": "full",
-  "maxCrawledPlacesPerSearch": 20,
-  "maxReviews": 0,
-  "reviewsSort": "newest",
-  "includeQA": false,
-  "language": "en",
-  "zoom": 13,
-  "proxyConfiguration": {
-    "useApifyProxy": true,
-    "apifyProxyGroups": [
-      "RESIDENTIAL"
-    ]
-  },
-  "webhookPlatform": "custom",
-  "webhookHeaders": {}
-}
-```
-
----
-
-## Input Parameters
-
-| Parameter | Type | Default | Required | Description |
-| --- | --- | --- | --- | --- |
-| `analysisMode` | string | `"full"` | No | Choose 'full' for comprehensive scraping of each business page, or 'local-pack' for a lightweight extraction of only the top 3 search results (name, rating, review count, category, URL) without navigating to individual pages. |
-| `searchStringsArray` | array | - | No | List of search queries like 'Bar Fort Lauderdale FL' or 'Plumber Miami'. Used for search mode. |
-| `maxCrawledPlacesPerSearch` | integer | `20` | No | Maximum number of places to return per search query |
-| `placeIds` | array | - | No | Direct Google Place IDs (ChIJ...) or CIDs for detailed GBP scraping. Use this mode to get comprehensive data including description, reviews, hours, and photos for specific businesses. |
-| `maxReviews` | integer | `0` | No | Maximum number of reviews to extract per business (0 = no reviews). Reviews include author, rating, text, date, and response. |
-| `reviewsSort` | string | `"newest"` | No | How to sort reviews before extraction |
-| `includeQA` | boolean | `false` | No | Extract Questions & Answers section from the business profile |
-| `language` | string | `"en"` | No | Language code for results |
-| `lat` | string | - | No | Center latitude for geo-biased search |
-| `lng` | string | - | No | Center longitude for geo-biased search |
-| `zoom` | integer | `13` | No | Map zoom level (10=city, 14=neighborhood, 17=street) |
-| `proxyConfiguration` | object | `{"useApifyProxy":true,"apifyProxyGroups":["RESIDENTIAL"]}` | No | Proxy settings. Residential proxies recommended for best results. |
-| `demoMode` | boolean | `false` | No | Run in demo mode without real scraping. Returns mock success response for testing. Set to false for real scraping. |
-| `webhookUrl` | string | - | No | URL to POST results when scraping completes (Zapier, Make, n8n, custom endpoint) |
-| `webhookPlatform` | string | `"custom"` | No | Platform type for webhook payload formatting |
-| `webhookHeaders` | object | - | No | Additional HTTP headers to send with webhook (e.g., authorization tokens) |
-
----
-
-## Pricing
-
-This actor uses **pay-per-event** billing:
-
-| Event | Description | Price |
+| Parameter | Type | Description |
 | --- | --- | --- |
-| Business Scraped | Each Google Maps business scraped (basic data) | $0.04 |
-| Business with Reviews | Business scraped with review extraction | $0.08 |
+| `searchQuery` | String | Search query (e.g., "restaurants in Chicago") |
+| `location` | String | Geographic location to search |
+| `maxResults` | Number | Maximum results to return (default: 20) |
+| `language` | String | Results language code (default: "en") |
 
-**Demo mode is free** -- no charges for sample data.
+## Output example
 
----
+```
+{
+    "name": "Joe's Pizza",
+    "address": "7 Carmine St, New York, NY 10014",
+    "phone": "+1 212-366-1182",
+    "website": "https://joespizzanyc.com",
+    "rating": 4.5,
+    "reviewCount": 8234,
+    "category": "Pizza restaurant",
+    "hours": "Mon-Sun: 10:00 AM - 4:00 AM",
+    "latitude": 40.7303,
+    "longitude": -74.0022
+}
+```
 
-## Troubleshooting
+## How much does it cost?
 
-### "API error 429" or "Rate limit"
+The scraper uses Pay-Per-Event pricing. You pay $0.50 per 1,000 results extracted. There's a small platform fee of $0.005 per Actor start. A typical run extracting 100 businesses costs approximately $0.05.
 
-Too many requests. Wait a minute and try again, or reduce the number of items per run.
+## Tips for best results
 
-### No results or empty dataset
+1. Use specific search queries for better targeting (e.g., "dentists in downtown Seattle" rather than just "dentists")
+2. Set `maxResults` to control costs - start small and scale up
+3. Combine with our Lead Gen AI Agent for automated email enrichment
 
-Check the run log for error messages. Common causes:
+## Related Actors from NexGenData
 
-- Invalid input format (check the examples above)
-- The target data doesn't exist or is too small to track
-
-### How do I test without an API key?
-
-Enable **Demo Mode** in the input. This returns realistic sample data so you can verify the output format works for your workflow.
-
----
-
-**Built by John Rippy | [Actor Arsenal](https://actorarsenal.com)**
+- [Google Maps MCP Server](https://apify.com/nexgendata/google-maps-mcp-server) — AI-powered lead gen
+- [Yelp Lead Scraper](https://apify.com/nexgendata/yelp-business-scraper) — Business emails & phones
+- [Yellow Pages Scraper](https://apify.com/nexgendata/yellow-pages-scraper) — Local business leads
+- [Company Email Finder](https://apify.com/nexgendata/company-email-finder) — B2B contact scraper
